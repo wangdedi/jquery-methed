@@ -1,20 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Jquery方法</title>
-	<script src="js/jquery.js"></script>
-</head>
-<body>
-	<div id="jq1">
-		<ul>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-		</ul>
-	</div>
-<script type="text/javascript">
-	console.log($("#jq1>li:eq(1)").text())
+<html>
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+       <script src="js/jquery.js"></script>
+        <style>
+          .focused {
+              background: #ff0000;
+          }
+        </style>
+    </head>
+    <body>
+  <div id="jq1">
+    <div id="run" style="position: absolute;width: 60px;height: 30px;background-color: red;">Run</div>
+    <h3>标题</h3>
+    <ul>
+      
+      <li>1 ba</li>
+      <h2>匹配如 h1, h2, h3之类的标题元素</h2>
+      <li lang="en">2 bda</li>
+      <li lang="en">3 a</li>
+      <li class="a">4</li>
+      <li attribute="bcd">5</li>
+      <li attribute="abc"><p>6</p></li>
+      <li></li>
+      <li><p>7</p></li>
+      <li style="display: none">我是隐藏的 hidden</li>
+    </ul>
+  </div>
+  <div id="jq2">
+    <div style="display: none;">1</div>
+    <div>2</div>
+  </div>
+  <div id="jq3">
+      <ul>
+        <div>1</div>
+        <li>2</li>
+        <li>3</li>
+      </ul>
+      <ul>
+        <li>a</li>
+        <li>b</li>
+        <li>c</li>
+      </ul>
+  </div>
+  <div>
+    <input type="button" value="li:not('.a')" onclick="jq1('not')">
+    <input type="button" value="li:eq(0)" onclick="jq1('eq')">
+    <input type="button" value="li:gt(1)" onclick="jq1('gt')">
+    <input type="button" value="li:lt(2)" onclick="jq1('lt')">
+    <input type="button" value="li:lang(en)" onclick="jq1('lang')">
+    <input type="button" value="li:last" onclick="jq1('last')">
+    <input type="button" value=":header" onclick="jq1('header')">
+    <input type="button" value=":not(:animated)" onclick="jq1('animated')">
+    <input type="button" value=":focus" onclick="jq1('focus')">
+    <input type="button" value=":root" onclick="jq1('root')">
+    <input type="button" value=":contains(text)" onclick="jq1('contains')">
+    <input type="button" value=":empty" onclick="jq1('empty')">
+    <input type="button" value=":has" onclick="jq1('has')">
+    <input type="button" value=":parent" onclick="jq1('parent')">
+    <input type="button" value=":hidden" onclick="jq1('hidden')">
+    <input type="button" value=":visible" onclick="jq1('visible')">
+    <input type="button" value=":attribute" onclick="jq1('attribute')">
+    <input type="button" value=":attribute=abc" onclick="jq1('attribute=value')">
+    <input type="button" value=":attribute!=abc" onclick="jq1('attribute!=value')">
+    <input type="button" value=":attribute^=a" onclick="jq1('attribute^=value')">
+    <input type="button" value=":first-child" onclick="jq1('first-child')">
+    <input type="button" value=":first-of-type" onclick="jq1('first-of-type')">
+  </div>
+  <div id="content">
+      <input tabIndex="1">
+      <input tabIndex="2">
+      <select tabIndex="3">
+          <option>select menu</option>
+      </select>
+      <div tabIndex="4">
+          a div
+      </div>
+      <div tabIndex="5">5555555</div>
+  </div>
+<script>
+  function jq1(str) {
+    switch(str){
+      case "not":
+        alert("去除所有与给定选择器匹配的元素-->"+$("li:not('.a')").text());
+      break;
+      case "eq":
+        alert("匹配一个给定索引值的元素-->"+$("#jq1 li:eq(0)").text());
+      break;
+      case "gt":
+        alert("匹配所有大于给定索引值的元素-->"+$("#jq1 li:gt(1)").text());
+      break;
+      case "lt":
+        alert("匹配所有小于给定索引值的元素-->"+$("#jq1 li:lt(2)").text());
+      break;
+      case "lang":
+        alert("选择指定语言的所有元素-->"+$("#jq1 li:lang(en)").text());
+      break;
+      case "last":
+        alert("获取匹配的最后个元素-->"+$("#jq1 li:last").text());
+      break;
+      case "header":
+        $("#jq1 :header").css("color","#ff0000")
+      break;
+      case "animated":
+        $("#run:not(:animated)").animate({ left: "+=50" }, 1000);
+      break;
+      case "focus":
+        $( "#content" ).delegate( "*", "focus blur", function( event ) {
+            var elem = $( this );
+            setTimeout(function() {
+               elem.toggleClass( "focused", elem.is( ":focus" ) );
+            }, 0);
+        });
+      break;
+      case "root":
+        $(":root").css("background-color","yellow");
+      break;
+      case "contains":
+        $("#jq1 li:contains('a')").css("background-color","yellow");
+        console.log($("#jq1 li:contains('a')").text())
+      break;
+      case "empty":
+        $("#jq1 li:empty").html("empty");
+        
+      break;
+      case "has":
+      //给所有包含 p 元素的 li 元素添加一个 背景色
+        $("#jq1 li:has(p)").css("background-color","yellow");
+        
+      break;
+      case "parent":
+      //查找所有不包含子元素或者文本的空元素
+        $("#jq1 li:parent").css("background-color","yellow");
+        
+      break;
+      case "hidden":
+        alert("查找隐藏的 li -->"+$("#jq1 li:hidden").text());
+      break;
+      case "visible":
+        alert("查找所有可见的 div 元素 -->"+$("#jq2 div:visible").text());
+      break;
+      case "attribute":
+        $("#jq1 [data]").css("background-color","yellow");
+      break;
+      case "attribute=value":
+    
+      //查找所有 attribute 属性是 abc 的元素
+        $("#jq1 [attribute='abc']").css("background-color","yellow");
+      break;
+      case "attribute!=value":
+       //查找所有 attribute 属性不是 abc 的元素
+        $("#jq1 [attribute!='abc']").css("background-color","yellow");
+      break;
+      case "attribute^=value":
+        //查找所有 attribute 以 'a' 开始的 li 元素
+        $("#jq1 [attribute^='a']").css("background-color","yellow");
+      break;
+      case "first-child":
+        //在每个 ul 中查找第一个 li
+        $("#jq1 ul li:first-child").css("background-color","yellow");
+      break;
+      case "first-of-type":
+        //查找作为父元素的li类型子元素中的"长子"的li标签
+        $("#jq3 ul li:first-of-type").css("background-color","yellow");
+      break;
+
+    }
+  }
+  //匹配一个给定索引值的元素
+  console.log($("#jq1 li:eq(0)")[0])
+  //匹配所有大于给定索引值的元素
+  console.log($("#jq1 li:gt(1)").text())
+  //选择指定语言的所有元素
+  console.log($("#jq1 li:lang(en)").text())
+  //获取匹配的最后个元素
+  console.log($("#jq1 li:last").text())
 </script>
+</script>
+
 </body>
 </html>
